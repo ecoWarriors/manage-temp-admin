@@ -7,10 +7,11 @@ import {
   } from "@regen-network/api/lib/generated/cosmos/authz/v1beta1/tx.js";
   import { GenericAuthorization } from "@regen-network/api/lib/generated/cosmos/authz/v1beta1/authz";
   import { admin } from "./constant";
+  import { grantee } from "./constant";
   
   const main = async () => {
-    if (!admin) {
-      console.log("Input admin key correctly.");
+    if (!admin || !grantee) {
+      console.log("Input admin private key or grantee pubkey correctly.");
       return;
     }
     const signer = await DirectSecp256k1HdWallet.fromMnemonic(admin, {
@@ -39,7 +40,7 @@ import {
         },
       },
       granter: account.address,
-      grantee: "regen1rmqwdehx2kg4kgdu0dkt2m7jcp2qfys50l640q",
+      grantee,
     });
   
     const TEST_FEE = {

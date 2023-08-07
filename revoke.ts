@@ -7,12 +7,13 @@ import {
     MsgRevoke,
   } from "@regen-network/api/lib/generated/cosmos/authz/v1beta1/tx.js";
   import { admin } from "./constant";
+  import { grantee } from "./constant";
   
   const main = async () => {
-    if (!admin) {
-      console.log("Input admin key correctly.");
-      return;
-    }
+    if (!admin || !grantee) {
+        console.log("Input admin private key or grantee pubkey correctly.");
+        return;
+      }
     const signer = await DirectSecp256k1HdWallet.fromMnemonic(admin, {
       prefix: "regen",
     });
@@ -29,7 +30,7 @@ import {
     const TEST_MSG_REVOKE = MsgRevoke.fromPartial({
       msgTypeUrl: "/regen.ecocredit.v1.MsgRetire",
       granter: account.address,
-      grantee: "regen1rmqwdehx2kg4kgdu0dkt2m7jcp2qfys50l640q",
+      grantee,
     });
   
     const TEST_FEE = {
